@@ -6,7 +6,7 @@
 /*   By: valentin <valentin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 12:47:54 by valentin          #+#    #+#             */
-/*   Updated: 2023/05/05 15:57:03 by valentin         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:02:24 by valentin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int ft_if_double(t_mini *mini, int i)
 
     j = 0;
     mini->args[mini->index] = malloc(sizeof(char) * (ft_get_len_if_double(mini->input, i) + 1));
+    ft_look_for_pair(mini, i);
     while (mini->input[i])
     {
         mini->args[mini->index][j] = mini->input[i];
@@ -58,8 +59,12 @@ int ft_if_double(t_mini *mini, int i)
         if (mini->input[i] == '"')
             break ;
     }
-    mini->args[mini->index][j] = '"';
-    i++;
+    if (mini->flag == 1)
+    {
+        mini->flag = 0;
+        mini->args[mini->index][j] = '"';
+        i++;
+    }
     mini->index++;
     return (i);
 }
