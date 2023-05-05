@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vstockma <vstockma@student.42.fr>          +#+  +:+       +#+         #
+#    By: valentin <valentin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/02 13:45:05 by vstockma          #+#    #+#              #
-#    Updated: 2023/05/04 16:26:51 by vstockma         ###   ########.fr        #
+#    Updated: 2023/05/05 14:21:08 by valentin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = main.c split_input.c
+SRCS = main.c split_input.c split_utils.c get_len.c
 
 LIBFT = ./libft/libft.a
 	
