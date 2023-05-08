@@ -3,19 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: valentin <valentin@student.42.fr>          +#+  +:+       +#+         #
+#    By: vstockma <vstockma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/02 13:45:05 by vstockma          #+#    #+#              #
-#    Updated: 2023/05/05 14:21:08 by valentin         ###   ########.fr        #
+#    Updated: 2023/05/08 10:46:05 by vstockma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = main.c split_input.c split_utils.c get_len.c
+SRCS = main.c pipes.c builtins.c redirections.c split_input.c split_utils.c get_len.c
 
 LIBFT = ./libft/libft.a
 	
 OBJS = $(SRCS:.c=.o)
-CFLAGS = -g -Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra 
 CC = cc 
 RM = rm -f
 NAME = minishell
@@ -26,7 +26,7 @@ $(LIBFT):
 	$(MAKE) -C ./libft
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -lreadline $(LIBFT) -o $(NAME)
 
 clean:
 	$(RM) $(OBJS)

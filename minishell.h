@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: valentin <valentin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vstockma <vstockma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 13:44:58 by vstockma          #+#    #+#             */
-/*   Updated: 2023/05/05 15:38:18 by valentin         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:51:56 by vstockma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "libft/libft.h"
+#include "./libft/libft.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,6 +39,8 @@ typedef struct s_mini
     int index;
     int flag;
 
+    int i;
+
     char **cmd1;
     char **cmd2;
 }   t_mini;
@@ -55,16 +57,18 @@ void    ft_split_input(t_mini *mini);
 int ft_count_argc(t_mini *mini);
 
 //split_utils.c
-int ft_put_in_args(t_mini *mini, int i);
-int ft_if_semi(t_mini *mini, int i);
-int ft_if_double(t_mini *mini, int i);
-int ft_skip_spaces(char *str, int i);
+void ft_skip_spaces(t_mini *mini, char *str);
+void ft_if_semi(t_mini *mini);
+void ft_if_double(t_mini *mini);
+void ft_put_in_args(t_mini *mini);
+void    ft_useless(t_mini *mini, int j, int x);
+
 
 //get_len.c
-int ft_get_len_if_space(char *str, int i);
-int ft_get_len_if_semi(char *str, int i);
-int ft_get_len_if_double(char *str, int i);
-void    ft_look_for_pair(t_mini *mini, int i);
+int	ft_get_len_if_space(t_mini *mini, char *str);
+int	ft_get_len_if_semi(t_mini *mini, char *str);
+int	ft_get_len_if_double(t_mini *mini, char *str);
+void	ft_look_for_pair(t_mini *mini);
 
 //redirections.c
 void    ft_redirect_left(t_mini *mini, int i);
