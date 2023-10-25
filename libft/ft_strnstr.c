@@ -3,40 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vstockma <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ddyankov <ddyankov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 08:37:07 by vstockma          #+#    #+#             */
-/*   Updated: 2022/10/04 08:37:11 by vstockma         ###   ########.fr       */
+/*   Created: 2022/10/15 11:01:41 by ddyankov          #+#    #+#             */
+/*   Updated: 2023/06/28 17:54:08 by ddyankov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+char	*ft_strnstr(const char *big, const char *little, int len)
 {
-	size_t	i;
-	size_t	j;
-	size_t	strlen;
-	char	*hay;
-	char	*needle;
+	char	*b;
+	int		counter;
+	int		index;
 
-	i = 0;
-	hay = (char *)big;
-	needle = (char *)little;
-	strlen = ft_strlen(needle);
-	if (strlen == 0 || big == needle)
-		return (hay);
-	if (len == 0)
+	b = (char *)big;
+	counter = 0;
+	if (big == 0 && len == 0)
 		return (NULL);
-	while (hay[i] && i < len)
+	if ((ft_strlen(little) == 0 && ft_strlen(big) == 0)
+		|| ft_strlen(little) == 0)
+		return (b);
+	if (ft_strlen(big) == 0)
+		return (NULL);
+	while (big[counter] != '\0' && counter < len)
 	{
-		j = 0;
-		while (hay[i + j] && needle[j] && hay[i + j] == needle[j]
-			&& i + j < len)
-			j++;
-		if (j == strlen)
-			return (hay + i);
-		i++;
+		index = 0;
+		while (little[index] != '\0' && counter + index < len
+			&& big[counter + index] == little[index])
+			index++;
+		if (index == ft_strlen(little))
+			return (b + counter);
+		counter++;
 	}
-	return (0);
+	return (NULL);
 }

@@ -3,47 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vstockma <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ddyankov <ddyankov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/13 11:06:06 by vstockma          #+#    #+#             */
-/*   Updated: 2022/09/13 11:06:27 by vstockma         ###   ########.fr       */
+/*   Created: 2022/10/16 11:02:51 by ddyankov          #+#    #+#             */
+/*   Updated: 2023/03/29 11:19:59 by ddyankov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
 int	ft_atoi(const char *str)
 {
-	int		i;
+	long	result;
+	int		sign;
 	int		a;
-	long	value;
 
-	value = 0;
-	i = 0;
-	a = 1;
-	while (str[i] && ((str[i] >= 7 && str[i] <= 13) || str[i] == ' '))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
+	result = 0;
+	sign = 1;
+	a = 0;
+	while (str[a] == 32 || (str[a] >= 9 && str[a] <= 13))
+		a++;
+	if (str[a] == '-' || str[a] == '+')
 	{
-		if (str[i] == '-')
-			a = -a;
-		i++;
+		if (str[a] == '-')
+			sign *= -1;
+		a++;
 	}
-	while (str[i] && str[i] >= '0' && str[i] <= '9')
+	while (ft_isdigit(str[a]))
 	{
-		value = 10 * value + (str[i] - 48);
-		i++;
-		if (value * a < -2147483648)
-			return (0);
-		else if (value * a > 2147483647)
+		result = result * 10 + str[a] - 48;
+		a++;
+		if (result * sign > 2147483647)
 			return (-1);
+		if (result * sign < -2147483648)
+			return (0);
 	}
-	return ((int)value * a);
+	return (result * sign);
 }
-/*
-int	main()
-{
-	char	str[] = "\x079";
-
-	printf("%d", ft_atoi(str));
-	return (0);
-}
-*/

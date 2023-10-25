@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vstockma <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ddyankov <ddyankov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/03 16:01:17 by vstockma          #+#    #+#             */
-/*   Updated: 2022/10/03 16:01:18 by vstockma         ###   ########.fr       */
+/*   Created: 2022/10/11 12:57:03 by ddyankov          #+#    #+#             */
+/*   Updated: 2023/07/16 13:35:09 by ddyankov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+int	ft_strlcpy(char *dst, const char *src, int size)
 {
-	size_t			i;
-	unsigned int	lens;
-	char			*source;
+	int	counter;
+	int	index;
 
-	source = (char *) src;
-	lens = ft_strlen(source);
-	i = 0;
+	counter = 0;
+	while (src[counter] != '\0')
+		counter++;
 	if (size == 0)
-		return (lens);
-	while (source[i] && i < size - 1)
+		return (counter);
+	index = 0;
+	while (index < (size - 1) && src[index] != '\0')
 	{
-		dest[i] = source[i];
-		i++;
+		dst[index] = src[index];
+		index++;
 	}
-	dest[i] = '\0';
-	return (lens);
+	dst[index] = '\0';
+	return (counter);
 }

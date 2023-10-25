@@ -3,35 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vstockma <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vstockma <vstockma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 10:10:51 by vstockma          #+#    #+#             */
-/*   Updated: 2022/10/04 10:10:52 by vstockma         ###   ########.fr       */
+/*   Created: 2022/10/13 11:36:13 by ddyankov          #+#    #+#             */
+/*   Updated: 2023/06/28 16:16:52 by vstockma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <string.h>
-#include <stdio.h>
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int	i;
+	char	*a;
+	int		d;
 
-	i = ft_strlen(s);
-	while (i >= 0)
-	{
-		if (s[i] == (char)c)
-			return ((char *)(s + i));
-		i--;
-	}
-	return (NULL);
+	d = 0;
+	a = (char *)s;
+	while (a[d] != '\0')
+		d++;
+	while (a[d] != (unsigned char)c && d > 0)
+		d--;
+	if (a[d] == (unsigned char)c)
+		return ((char *)a + d);
+	else
+		return (NULL);
 }
-
-/*int	main()
-{
-	char s[] = "tripouille";
-	printf("%s\n", strrchr(s, 't' + 256));
-	printf("%s\n", ft_strrchr(s, 't' + 256));
-	return (0);
-}*/

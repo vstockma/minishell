@@ -3,114 +3,112 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vstockma <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ddyankov <ddyankov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 12:03:31 by vstockma          #+#    #+#             */
-/*   Updated: 2022/11/17 13:12:27 by vstockma         ###   ########.fr       */
+/*   Created: 2022/11/17 11:04:10 by ddyankov          #+#    #+#             */
+/*   Updated: 2023/06/28 17:50:53 by ddyankov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-static int	ft_type(va_list args, char format)
+void	ft_hexa(unsigned int n, int *len, char c)
 {
-	int	len;
-
-	len = 0;
-	if (format == '%')
-		len = len + ft_putc('%');
-	if (format == 'c')
-		len = len + ft_putc(va_arg(args, int));
-	if (format == 's')
-		len = len + ft_puts(args);
-	if (format == 'd' || format == 'i')
-		len = len + ft_putdi(args);
-	if (format == 'u')
-		len = len + ft_putu(args);
-	if (format == 'x')
-		len = len + ft_putxlower(args);
-	if (format == 'X')
-		len = len + ft_putxupper(args);
-	if (format == 'p')
-		len = len + ft_putp(args);
-	return (len);
+	if (n < 16)
+	{
+		if (c == 'x')
+			ft_putchar("0123456789abcdef"[n], len);
+		else if (c == 'X')
+			ft_putchar("0123456789ABCDEF"[n], len);
+	}
+	else if (n >= 16)
+	{
+		ft_hexa(n / 16, len, c);
+		ft_hexa(n % 16, len, c);
+	}
 }
 
-int	ft_printf(const char *str, ...)
+void	ft_pointer_hexa(unsigned long long n, int *len)
 {
-	int		i;
+	if (n < 16)
+	{
+		ft_putchar("0123456789abcdef"[n], len);
+	}
+	else
+	{
+		ft_pointer_hexa(n / 16, len);
+		ft_pointer_hexa(n % 16, len);
+	}
+}
+
+void	ft_pointer(void *ptr, int *len)
+{
+	unsigned long long	n;
+
+	if (!ptr)
+		ft_putstr("(nil)", len);
+	else
+	{
+		n = (unsigned long long)ptr;
+		ft_putchar('0', len);
+		ft_putchar('x', len);
+		ft_pointer_hexa(n, len);
+	}
+}
+
+void	ft_format_spec(char c, int *len, va_list args)
+{
+	if (c == 'c')
+		ft_putchar(va_arg(args, int), len);
+	if (c == 's')
+		ft_putstr(va_arg(args, char *), len);
+	if (c == 'd' || c == 'i')
+		ft_putnbr(va_arg(args, int), len);
+	if (c == 'u')
+		ft_pos_nbr(va_arg(args, unsigned int), len);
+	if (c == 'p')
+		ft_pointer(va_arg(args, void *), len);
+	if (c == 'x' || c == 'X')
+		ft_hexa(va_arg(args, int), len, c);
+	if (c == '%')
+		ft_putchar('%', len);
+}
+
+int	ft_printf(const char *f, ...)
+{
 	int		len;
+	int		c;
 	va_list	args;
 
-	i = 0;
 	len = 0;
-	va_start(args, str);
-	while (str[i])
+	c = 0;
+	va_start(args, f);
+	while (f && f[c])
 	{
-		if (str[i] == '%')
+		if (f[c] == '%')
 		{
-			i++;
-			len = len + ft_type(args, str[i]);
+			c++;
+			ft_format_spec(f[c], &len, args);
 		}
 		else
-		{
-			write(1, &str[i], 1);
-			len++;
-		}
-		i++;
+			ft_putchar(f[c], &len);
+		c++;
 	}
 	va_end(args);
 	return (len);
 }
-/*
-int	main()
-{
-	char		c = 100;
-	int		i = 5; //2147483648
-	unsigned int	u = 568888; //4294967295
-	int		len;
-	int		orglen;
-	char		*str = "Hallo";
 
-	ft_printf("Print %%\n");
-	orglen = printf("Char OgPrintf: %%\n");
-	len = ft_printf("Char MyPrintf: %%\n");
-	printf("orglen: %d  len: %d\n\n", orglen, len);
-
-	ft_printf("Print Char\n");
-	orglen = printf("Char OgPrintf: %c\n", c);
-	len = ft_printf("Char MyPrintf: %c\n", c);
-	printf("orglen: %d  len: %d\n\n", orglen, len);
-
-	ft_printf("Print String\n");
-	orglen = printf("Str OgPrintf: %s\n", str);
-	len = ft_printf("Str MyPrintf: %s\n", str);
-	printf("orglen: %d  len: %d\n\n", orglen, len);
-	
-	ft_printf("Print Int\n");
-	orglen = printf("Int OgPrintf: %i\n", i);
-	len = ft_printf("Int MyPrintf: %i\n", i);
-	printf("orglen: %d  len: %d\n\n", orglen, len);
-
-	ft_printf("Print Unsigned Int\n");
-	orglen = printf("Unsigned Int OgPrintf: %u\n", u);
-	len = ft_printf("Unsigned Int MyPrintf: %u\n", u);
-	printf("orglen: %d  len: %d\n\n", orglen, len);
-
-	ft_printf("Print Hexlower\n");
-	orglen = printf("Hexlower OgPrintf: %x\n", u);
-	len = ft_printf("Hexlower MyPrintf: %x\n", u);
-	printf("orglen: %d  len: %d\n\n", orglen, len);
-
-	ft_printf("Print Hexuppper\n");
-	orglen = printf("Hexupper OgPrintf: %X\n", u);
-	len = ft_printf("Hexupper MyPrintf: %X\n", u);
-	printf("orglen: %d  len: %d\n\n", orglen, len);
-
-	ft_printf("Print Pointer\n");
-	orglen = printf("Pointer OgPrintf: %p\n", str);
-	len = ft_printf("Pointer MyPrintf: %p\n", str);
-	printf("orglen: %d  len: %d\n\n", orglen, len);
-}
-*/
+/*int	main(void)
+{	
+	char 	*s = NULL;
+	printf("%d\n",printf("qsd%s", s));
+	printf("%d\n",ft_printf("qsd%s",s));
+	//printf("%p", p);
+	//ft_printf("%p", r);
+	//printf("%d\n",printf("Dey%s%cN%c", "FFF", 'U', 'E'));
+	//printf("%d\n",ft_printf("Dey%s%cN%c","FFF",'U', 'E'));
+	//printf("ORIGINAL LÄNGE  %d\n",printf("%ld\n",-2147483648));
+	//printf("MEINE LÄNGE IST %d\n",ft_printf("%d\n",-2147483648));
+	//printf("%d\n",printf("DDDD\n"));
+	return (0);
+}*/

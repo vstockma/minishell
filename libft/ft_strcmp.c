@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vstockma <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ddyankov <ddyankov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/01 13:39:35 by vstockma          #+#    #+#             */
-/*   Updated: 2022/09/02 09:29:19 by vstockma         ###   ########.fr       */
+/*   Created: 2023/06/27 21:14:14 by ddyankov          #+#    #+#             */
+/*   Updated: 2023/06/27 21:14:36 by ddyankov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
-void	ft_putchar(char c);
-
-void	ft_putchar(char c)
+int	ft_strcmp(const char *str1, const char *str2)
 {
-	write(1, &c, 1);
+	while (*str1 && *str2 && *str1 == *str2)
+	{
+		str1++;
+		str2++;
+	}
+	return (*str1 - *str2);
 }
